@@ -18,7 +18,6 @@ mongoose.connect(uri).then(
         /** handle initial connection error */
         console.log('error connecting to Mongo: ')
         console.log(err);
-
     }
 );
 

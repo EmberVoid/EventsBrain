@@ -34,11 +34,6 @@ app.use(
 	})
 )
 
-//app.use((req, res, next) => {
-//	console.log('req.session', req.session);
-//	next()
-//});
-
 // Passport
 app.use(passport.initialize())
 app.use(passport.session()) // calls the deserializeUser

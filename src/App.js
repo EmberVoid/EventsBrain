@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import axios from 'axios'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { Route } from 'react-router-dom'
 
 // components
 import Signup from './components/sign-up/sign-up';
@@ -27,7 +27,7 @@ class App extends Component {
     this.getUser()
   }
 
-  updateUser(userObject) {
+  updateUser (userObject) {
     this.setState(userObject)
   }
 
@@ -54,35 +54,31 @@ class App extends Component {
 
   render() {
     return (
-      <Router>
-        <div className="App">
-          <Navbar updateUser={this.updateUser} loggedIn={this.state.loggedIn} />
-          {/* greet user if logged in: */}
-          {this.state.loggedIn &&
-            <p>Join the party, {this.state.username}!</p>
-          }
-          {/* Routes to different components */}
-          <Switch>
-            <Route
-              exact path="/"
-              component={Home} />
-            <Route
-              path="/login"
-              render={() =>
-                <LoginForm
-                  updateUser={this.updateUser}
-                />}
-            />
-            <Route
-              path="/signup"
-              render={() =>
-                <Signup
-                  signup={this.signup}
-                />}
-            />
-          </Switch>
-        </div>
-      </Router>
+      <div className="App">
+   
+        <Navbar updateUser={this.updateUser} loggedIn={this.state.loggedIn} />
+        {/* greet user if logged in: */}
+        {this.state.loggedIn &&
+          <p>Join the party, {this.state.username}!</p>
+        }
+        {/* Routes to different components */}
+        <Route
+          exact path="/"
+          component={Home} />
+        <Route
+          path="/login"
+          render={() =>
+            <LoginForm
+              updateUser={this.updateUser}
+            />}
+        />
+        <Route
+          path="/signup"
+          render={() =>
+            <Signup/>}
+        />
+
+      </div>
     );
   }
 }
