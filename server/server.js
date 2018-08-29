@@ -14,14 +14,20 @@ PORT = process.env.PORT
 //route requires
 const user = require('./routes/user')
 
+// function that sets headers to enable cors
+function enableCORS(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*')
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+  next()
+}
+
 // MIDDLEWARE
 app.use(morgan('dev'))
-app.use(
-	bodyParser.urlencoded({
-		extended: false
-	})
-)
+app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+
+app.use(enableCORS)
 
 //sessions
 app.use(
