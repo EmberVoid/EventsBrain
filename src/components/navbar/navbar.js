@@ -1,70 +1,69 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import '../../App.css';
 import axios from 'axios'
 
 class Navbar extends Component {
-    constructor() {
-        super()
-        this.logout = this.logout.bind(this)
+  constructor() {
+    super()
+    this.state = {
+      redirectTo: null
     }
 
-    logout(event) {
-        event.preventDefault()
-        console.log('logging out')
-        axios.post('/user/logout').then(response => {
-            console.log(response.data)
-            if (response.status === 200) {
-                this.props.updateUser({
-                    loggedIn: false,
-                    username: null
-                })
-            }
-        }).catch(error => {
-            console.log('Logout error')
-        })
-    }
+    this.logout = this.logout.bind(this)
+  }
 
-    render() {
-        const loggedIn = this.props.loggedIn;
-        console.log('navbar render, props: ')
-        console.log(this.props);
+  logout(event) {
+    event.preventDefault()
+    console.log('logging out')
 
-        return (
-            <div>
+    axios
+      .post('/user/logout')
+      .then(response => {
+        console.log('Logout response: ')
+        console.log(response.data)
+        if (response.status === 200) {
+          // update App.js state
+          this.props.updateUser({
+            loggedIn: false,
+            username: null
+          })
+        }
+      }).catch(error => {
+        console.log('Logout error')
+        console.log(error);
+      })
+  }
 
-                <header className="navbar App-header" id="nav-container">
-                    <div className="col-4" >
-                        {loggedIn ? (
-                            <section className="navbar-section">
-                                <Link to="#" className="btn btn-link text-secondary" onClick={this.logout}>
-                                    <span className="text-secondary">logout</span></Link>
+  render() {
+    const loggedIn = this.props.loggedIn;
+    console.log('navbar render, props: ')
+    console.log(this.props);
 
-                            </section>
-                        ) : (
-                                <section className="navbar-section">
-                                    <Link to="/" className="btn btn-link text-secondary">
-                                        <span className="text-secondary">home</span>
-                                    </Link>
-                                    <Link to="/login" className="btn btn-link text-secondary">
-                                        <span className="text-secondary">login</span>
-                                    </Link>
-                                    <Link to="/signup" className="btn btn-link">
-                                        <span className="text-secondary">sign up</span>
-                                    </Link>
-                                </section>
-                            )}
-                    </div>
-                    <div className="col-4 col-mr-auto">
-                        <div id="top-filler"></div>
-                        <h1 className="App-title">MERN Passport</h1>
-                    </div>
-                </header>
-            </div>
+    return (
+      <nav className="flex justify-between bb b--white-10 bg-black-90" id="nav-container">
+        {loggedIn ? (
+          <section className="flex-grow pa3 flex items-center">
+            <Link to="/" >
+              <span className="f6 dib white bg-animate hover-bg-white hover-black no-underline pv2 ph4 br-pill ba b--white-20" onClickCapture={this.logout}>logout</span>
+            </Link>
+          </section>
+        ) : (
+            <section className="flex-grow pa3 flex items-center">
+              <Link to="/" >
+                <span className="f6 link dib white dim mr3 mr4-ns">Home</span>
+              </Link>
+              <Link to="/login">
+                <span className="f6 link dib white dim mr3 mr4-ns">Log In</span>
+              </Link>
+              <Link to="/signup">
+                <span className="f6 dib white bg-animate hover-bg-white hover-black no-underline pv2 ph4 br-pill ba b--white-20">Sign Up</span>
+              </Link>
+            </section>
+          )}
+      </nav>
+    );
+  }
 
-        );
-
-    }
 }
 
 export default Navbar

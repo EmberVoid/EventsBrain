@@ -1,16 +1,21 @@
 import React, { Component } from 'react'
+import './gravity.css';
 
 class Home extends Component {
     render() {
-        const imageStyle = {
-            width: 400
-        }
+        let fullbleedBackground = {
+            background: 'url(https://i.imgur.com/mx4gHaS.png)',
+            backgroundRepeat: 'no-repeat',
+            backgroundAttachment: 'fixed',
+            backgroundSize: 'cover',
+            minHeight: '100vh',
+          };
         return (
-            <div>
-                <p>It's good to be home</p>
-                <img style={imageStyle} src="https://i.ytimg.com/vi/N1icEHtgb3g/maxresdefault.jpg" alt="Home"/>
+            <div style={fullbleedBackground}>
+                <h1 className={"text"}>Events</h1>
             </div>
         )
     }
 }
+
 export default Home

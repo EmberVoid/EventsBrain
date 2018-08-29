@@ -7,6 +7,7 @@ import Signup from './components/sign-up/sign-up';
 import LoginForm from './components/log-in/log-in';
 import Navbar from './components/navbar/navbar'
 import Home from './components/home/home'
+import EventCards from './components/eventCards/eventCards'
 
 import './App.css';
 
@@ -27,7 +28,7 @@ class App extends Component {
     this.getUser()
   }
 
-  updateUser (userObject) {
+  updateUser(userObject) {
     this.setState(userObject)
   }
 
@@ -55,16 +56,22 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-   
+
         <Navbar updateUser={this.updateUser} loggedIn={this.state.loggedIn} />
         {/* greet user if logged in: */}
         {this.state.loggedIn &&
-          <p>Join the party, {this.state.username}!</p>
-        }
+          <Route
+            path="/events"
+            render={() =>
+              <EventCards />}
+          />}
+
         {/* Routes to different components */}
         <Route
           exact path="/"
-          component={Home} />
+          render={() =>
+            <Home />}
+        />
         <Route
           path="/login"
           render={() =>
@@ -75,7 +82,7 @@ class App extends Component {
         <Route
           path="/signup"
           render={() =>
-            <Signup/>}
+            <Signup />}
         />
 
       </div>
