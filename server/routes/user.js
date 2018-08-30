@@ -3,16 +3,6 @@ const router = express.Router()
 const User = require('../database/models/user')
 const passport = require('../passport')
 
-const asyncMiddleware = require('../helpers/middleware')
-const eventsController = require('../controllers/eventsController')
-
-// events endpoints
-router.get('/events', asyncMiddleware(eventsController.getEvents))
-router.get('/events/:id', asyncMiddleware(eventsController.getEventById))
-router.post('/events', asyncMiddleware(eventsController.createEvent))
-router.put('/events/:id', asyncMiddleware(eventsController.updateEventById))
-router.delete('/events/:id', asyncMiddleware(eventsController.deleteEventById))
-
 router.post('/', (req, res) => {
   console.log('user signup');
 

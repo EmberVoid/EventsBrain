@@ -8,6 +8,7 @@ import LoginForm from './components/log-in/log-in';
 import Navbar from './components/navbar/navbar'
 import Home from './components/home/home'
 import EventCards from './components/eventCards/eventCards'
+import AddEvent from './components/addevent/addevent'
 
 import './App.css';
 
@@ -83,6 +84,11 @@ class App extends Component {
           path="/signup"
           render={() =>
             <Signup />}
+        />
+        <Route
+          path="/addevent"
+          render={() =>
+            <AddEvent />}
         />
 
       </div>

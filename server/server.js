@@ -13,6 +13,7 @@ PORT = process.env.PORT
 
 //route requires
 const user = require('./routes/user')
+const event = require('./routes/event')
 
 // function that sets headers to enable cors
 function enableCORS(req, res, next) {
@@ -26,7 +27,6 @@ function enableCORS(req, res, next) {
 app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
-
 app.use(enableCORS)
 
 //sessions
@@ -45,6 +45,7 @@ app.use(passport.session()) // calls the deserializeUser
 
 // routes
 app.use('/user', user)
+app.use('/events', event)
 
 // Starting Server 
 app.listen(PORT, () => {

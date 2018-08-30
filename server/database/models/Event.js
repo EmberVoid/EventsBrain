@@ -6,9 +6,8 @@ const mongoose = require('mongoose')
 
 const eventSchema = new mongoose.Schema({
   event: {type: String, required: true, trim: true},
-  eventPlaceName: {type: String, required: true},
   eventDescription: {type: String, required: true},
-  eventDate: {type: String, required: true},
+  eventDate: {type: Date, required: true},
   eventLocation: String,
   eventPrice: String,
   eventSpace: String,
