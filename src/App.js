@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import axios from 'axios'
-import { Route } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+
+//LandingPage
+import Home from './components/home/home'
 
 // components
+import Navbar from './components/navbar/navbar'
 import Signup from './components/sign-up/sign-up';
 import LoginForm from './components/log-in/log-in';
-import Navbar from './components/navbar/navbar'
-import Home from './components/home/home'
-import EventCards from './components/eventCards/eventCards'
+import GetEvent from './containers/eventList/'
 import AddEvent from './components/addevent/addevent'
 
 import './App.css';
@@ -56,42 +58,26 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-
-        <Navbar updateUser={this.updateUser} loggedIn={this.state.loggedIn} />
-        {/* greet user if logged in: */}
-        {this.state.loggedIn &&
-          <Route
-            path="/events"
-            render={() =>
-              <EventCards />}
-          />}
-
-        {/* Routes to different components */}
-        <Route
-          exact path="/"
-          render={() =>
-            <Home />}
-        />
-        <Route
-          path="/login"
-          render={() =>
-            <LoginForm
-              updateUser={this.updateUser}
+      <Router>
+        <div className="App">
+          <Navbar updateUser={this.updateUser} loggedIn={this.state.loggedIn} />
+          {/* greet user if logged in: */}
+          {this.state.loggedIn &&
+            <Route
+              path="/events"
+              render={() =>
+                <GetEvent />}
             />}
-        />
-        <Route
-          path="/signup"
-          render={() =>
-            <Signup />}
-        />
-        <Route
-          path="/addevent"
-          render={() =>
-            <AddEvent />}
-        />
-
-      </div>
+          <main>
+            <Switch>
+              <Route exact path='/' component={Home} />
+              <Route path='/login' render={() => <LoginForm updateUser={this.updateUser} />} />
+              <Route path='/signup' component={Signup} />
+              <Route path='/addevent' component={AddEvent} />
+            </Switch>
+          </main>
+        </div>
+      </Router>
     );
   }
 }

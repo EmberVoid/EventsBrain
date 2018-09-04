@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Helmet } from 'react-helmet';
 import { Redirect } from 'react-router-dom'
 import axios from 'axios'
 
@@ -50,19 +51,22 @@ class LoginForm extends Component {
   }
 
   render() {
-    let fullbleedBackground = {
-      background: 'url(https://i.imgur.com/7Xh2Mah.png)',
-      backgroundRepeat: 'no-repeat',
-      backgroundAttachment: 'fixed',
-      backgroundSize: 'cover',
-      minHeight: '100vh',
-    };
-
     if (this.state.redirectTo) {
       return <Redirect to={{ pathname: this.state.redirectTo }} />
     } else {
       return (
-        <div className={"pa4 black-80"} style={fullbleedBackground}>
+        <div className={"flex items-center justify-center vh-75"}>
+          <Helmet>
+          <style type="text/css">{`
+          body {
+            background: linear-gradient(315deg, rgba(255,255,255,1) 50%, #1A8CCF 50%);
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            height: 100vh,
+            width: 100vw
+          }
+          `}</style>
+        </Helmet>
           <form className={"measure center"}>
             <fieldset id="sign_up" className={"ba b--transparent ph0 mh0"}>
               <h4 className={"f4 fw6 ph0 mh0"}>Log In</h4>
@@ -99,6 +103,7 @@ class LoginForm extends Component {
               </div>
             </fieldset>
           </form>
+          
         </div>
       )
     }

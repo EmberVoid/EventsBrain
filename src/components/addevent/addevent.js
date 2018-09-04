@@ -5,7 +5,6 @@ import moment from 'moment';
 import axios from 'axios'
 import Select from 'react-select';
 import Dropzone from 'react-dropzone'
-import { Image } from 'cloudinary-react';
 
 import './timepicker.css';
 
@@ -43,7 +42,6 @@ class AddEvent extends Component {
       errors: {},
       redirectTo: null,
       startDate: moment(),
-
     }
     this.handleAddEvent = this.handleAddEvent.bind(this)
     this.handleChange = this.handleChange.bind(this)
@@ -124,18 +122,10 @@ class AddEvent extends Component {
 
 
   render() {
-    let fullbleedBackground = {
-      background: 'url(https://i.imgur.com/PFejiVc.png)',
-      backgroundRepeat: 'no-repeat',
-      backgroundAttachment: 'fixed',
-      backgroundSize: 'cover',
-      minHeight: '100vh',
-    };
-
     if (this.state.redirectTo) {
       return <Redirect to={{ pathname: this.state.redirectTo }} />
     } return (
-      <div className="pa4 black-80" style={fullbleedBackground}>
+      <div className="pa4 black-80">
         <form className={"measure center"}>
           <fieldset id="log_in" className={"ba b--transparent ph0 mh0"}>
             <h4 className={"f4 fw6 ph0 mh0"}>Add event</h4>

@@ -40,7 +40,7 @@ class Navbar extends Component {
     console.log(this.props);
 
     return (
-      <nav className="flex justify-between bb b--white-10 bg-black-90" id="nav-container">
+      <nav className="flex justify-between bb b--white-10 fixed " id="nav-container">
         {loggedIn ? (
           <section className="flex-grow pa3 flex items-center">
             <Link to="/" >
