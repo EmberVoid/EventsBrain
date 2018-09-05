@@ -1,7 +1,11 @@
 import React, { Component } from 'react'
-import { Helmet } from 'react-helmet';
-import { Redirect } from 'react-router-dom'
 import axios from 'axios'
+import { Helmet } from 'react-helmet'
+import { Redirect, Link } from 'react-router-dom'
+import { Form, Icon, Input, Button } from 'antd';
+import 'antd/dist/antd.css';
+
+const FormItem = Form.Item;
 
 class LoginForm extends Component {
   constructor() {
@@ -12,52 +16,59 @@ class LoginForm extends Component {
       redirectTo: null
     }
     this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleChange = this.handleChange.bind(this)
-  }
-
-  handleChange(event) {
-    this.setState({
-      [event.target.name]: event.target.value
-    })
   }
 
   handleSubmit(event) {
     event.preventDefault()
-    console.log('handleSubmit')
-
-    axios
-      .post('/user/login', {
-        username: this.state.username,
-        password: this.state.password
-      })
-      .then(response => {
-        console.log('login response: ')
-        console.log(response)
-        if (response.status === 200) {
-          // update App.js state
-          this.props.updateUser({
-            loggedIn: true,
-            username: response.data.username
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        console.log('handleSubmit')
+        axios
+          .post('/user/login', {
+            username: values.userName,
+            password: values.password
           })
-          // update the state to redirect to home
-          this.setState({
-            redirectTo: '/events'
+          .then(response => {
+            console.log('login response: ')
+            console.log(response)
+            if (response.status === 200) {
+              // update App.js state
+              this.props.updateUser({
+                loggedIn: true,
+                username: response.data.username
+              })
+              // update the state to redirect to home
+              this.setState({
+                redirectTo: '/events'
+              })
+            }
+          }).catch(error => {
+            console.log('login error: ')
+            console.log(error);
           })
-        }
-      }).catch(error => {
-        console.log('login error: ')
-        console.log(error);
-      })
+      }
+    });
   }
+
+  handleToSignUp(event) {
+    event.preventDefault()
+    this.setState({
+      redirectTo: '/signup'
+    });
+
+  }
+
 
   render() {
     if (this.state.redirectTo) {
       return <Redirect to={{ pathname: this.state.redirectTo }} />
     } else {
+      const { getFieldDecorator } = this.props.form;
       return (
-        <div className={"flex items-center justify-center vh-75"}>
-          <Helmet>
-          <style type="text/css">{`
+        <div className={"flex items-center justify-center vh-100"} >
+          <Form onSubmit={this.handleSubmit} className={"login-form measure center"}>
+            <Helmet>
+              <style type="text/css">{`
           body {
             background: linear-gradient(315deg, rgba(255,255,255,1) 50%, #1A8CCF 50%);
             background-repeat: no-repeat;
@@ -66,48 +77,53 @@ class LoginForm extends Component {
             width: 100vw
           }
           `}</style>
-        </Helmet>
-          <form className={"measure center"}>
-            <fieldset id="sign_up" className={"ba b--transparent ph0 mh0"}>
-              <h4 className={"f4 fw6 ph0 mh0"}>Log In</h4>
-              <div className="mt3">
-                <label className="db fw6 lh-copy f6" htmlFor="username">Username:</label>
-                <div className="col-3 col-mr-auto">
-                  <input className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
-                    type="text"
-                    id="username"
-                    name="username"
-                    placeholder="Username"
-                    value={this.state.username}
-                    onChange={this.handleChange}
-                  />
-                </div>
-              </div>
-              <div className="mt3">
-                <label className="db fw6 lh-copy f6" htmlFor="password">Password: </label>
-                <div className="col-3 col-mr-auto">
-                  <input className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
-                    placeholder="Password"
-                    type="password"
-                    name="password"
-                    value={this.state.password}
-                    onChange={this.handleChange}
-                  />
-                </div>
-              </div>
-              <div className="mt3 ">
-                <button
-                  className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
-                  onClick={this.handleSubmit}
-                  type="submit">Login</button>
-              </div>
-            </fieldset>
-          </form>
-          
+            </Helmet>
+            <FormItem>
+              {getFieldDecorator("userName", {
+                rules: [{ required: true, message: "Please input your username!" }]
+              })(
+                <Input
+                  prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />}
+                  placeholder="Username"
+                />
+              )}
+            </FormItem>
+            <FormItem>
+              {getFieldDecorator("password", {
+                rules: [{ required: true, message: "Please input your Password!" }]
+              })(
+                <Input
+                  prefix={<Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />}
+                  type="password"
+                  placeholder="Password"
+                />
+              )}
+            </FormItem>
+            <FormItem>
+              <Button
+                type="primary"
+                htmlType="submit"
+                className="w-100"
+                onClick={this.handleSubmit}
+              >
+                Log in
+          </Button>
+            </FormItem>
+            <Link to="/signup">
+              <Button
+                htmlType="submit"
+                className="w-100"
+              >
+                or register now!
+          </Button>
+            </Link>
+          </Form>
         </div>
       )
     }
   }
 }
 
-export default LoginForm
+const WrappedLoginForm = Form.create()(LoginForm);
+
+export default WrappedLoginForm

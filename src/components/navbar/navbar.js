@@ -44,7 +44,7 @@ class Navbar extends Component {
         {loggedIn ? (
           <section className="flex-grow pa3 flex items-center">
             <Link to="/" >
-              <span className="f6 link dib white dim mr3 mr4-ns" onClickCapture={this.logout}>logout</span>
+              <span className="f6 link dib white dim mr3 mr4-ns" onClick={this.logout}>logout</span>
             </Link>
             <Link to="/addevent" >
               <span className="f6 dib white bg-animate hover-bg-white hover-black no-underline pv2 ph4 br-pill ba b--white-20">Add Event</span>

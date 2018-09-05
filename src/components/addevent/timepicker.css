@@ -217,3 +217,48 @@ td.rdtYear:hover {
 .rdtTime td {
   cursor: default;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+.form-control{
+  width: 100%;
+  border-color: hsl(0,0%,80%);
+  border-radius: 4px;
+  border-style: solid;
+  border-width: 1px;
+  cursor: default;
+  text-align: center;
+}
+
+.ant-input-number{
+  width: 100%;
+  border-color: hsl(0,0%,80%);
+  border-radius: 4px;
+  border-style: solid;
+  border-width: 1px;
+  cursor: default;
+}
+
+.ant-input-number-input{
+  text-align: center;
+}
+
+.addEvent-InputName{
+  width: 100%;
+  border-color: hsl(0,0%,80%);
+  border-radius: 4px;
+  border-style: solid;
+  border-width: 1px;
+  cursor: default;
+  text-align: center;
+}

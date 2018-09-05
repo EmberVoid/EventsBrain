@@ -1,18 +1,15 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
-import DatePicker from 'react-datetime';
-import moment from 'moment';
+import DatePicker from 'react-datetime'
+import moment from 'moment'
 import axios from 'axios'
-import Select from 'react-select';
+import Select from 'react-select'
 import Dropzone from 'react-dropzone'
+import { Helmet } from 'react-helmet'
+import { InputNumber } from 'antd';
 
 import './timepicker.css';
-
-const price = [
-  { value: '0', label: 'Free' },
-  { value: '500', label: '₡ 500' },
-  { value: '1000', label: `₡ 1'000` }
-];
+import 'antd/dist/antd.css';
 
 const space = [
   { value: '0', label: 'Unlimited' },
@@ -62,6 +59,7 @@ class AddEvent extends Component {
     this.setState({
       [event.target.name]: event.target.value,
     })
+    console.log('changed', event.target.value);
   }
 
   handleDate(date) {
@@ -106,7 +104,7 @@ class AddEvent extends Component {
     event.preventDefault()
     //request to server to add a new username/password
     axios.post('events/addevent', {
-      event: this.state.event,
+      event: event.target.value,
       eventDescription: this.state.eventDescription,
       eventDate: this.state.startDate,
       eventLocation: this.state.eventLocation,
@@ -126,13 +124,23 @@ class AddEvent extends Component {
       return <Redirect to={{ pathname: this.state.redirectTo }} />
     } return (
       <div className="pa4 black-80">
+        <Helmet>
+          <style type="text/css">{`
+          body {
+            background: linear-gradient(315deg, rgba(255,255,255,1) 50%, #1A8CCF 50%);
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            height: 100vh,
+            width: 100vw
+          }
+          `}</style>
+        </Helmet>
         <form className={"measure center"}>
           <fieldset id="log_in" className={"ba b--transparent ph0 mh0"}>
-            <h4 className={"f4 fw6 ph0 mh0"}>Add event</h4>
             <div className="mt3">
               <label className="db fw6 lh-copy f6" htmlFor="event">Name of the event:</label>
               <div className="col-3 col-mr-auto">
-                <input className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
+                <input className="w-100 addEvent-InputName"
                   type="text"
                   id="event"
                   name="event"
@@ -146,7 +154,6 @@ class AddEvent extends Component {
               <label className="db fw6 lh-copy f6" htmlFor="eventDate">Date of the event: </label>
               <div className={"col-3 col-mr-auto"}>
                 <DatePicker
-                  className="pa2 input-reset ba bg-transparent hover-bg-black w-100"
                   value={this.state.startDate}
                   onChange={this.handleDate} />
               </div>
@@ -154,11 +161,13 @@ class AddEvent extends Component {
             <div className="mt3">
               <label className="db fw6 lh-copy f6" htmlFor="eventPrice">Price of the event: </label>
               <div className="col-3 col-mr-auto">
-                <Select
-                  className="pa2 input-reset ba bg-transparent hover-bg-black w-100"
-                  value={this.state.eventPrice}
+                <InputNumber
+                  defaultValue={0}
+                  formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                  parser={value => value.replace(/\$\s?|(,*)/g, '')}
                   onChange={this.handlePrice}
-                  options={price}
+                  className={" w-100"}
+                  size="small"
                 />
               </div>
             </div>
@@ -170,6 +179,7 @@ class AddEvent extends Component {
                   value={this.state.eventSpace}
                   onChange={this.handleSpace}
                   options={space}
+                  size="small"
                 />
               </div>
             </div>

@@ -2,7 +2,6 @@ import React from 'react'
 import { map } from 'ramda'
 import EventList from '../../components/getevent/'
 import LoadingScreen from '../../components/loadingscreen/'
-import { Carousel } from 'antd';
 import axios from 'axios'
 
 class ParkDetailContainer extends React.Component {
@@ -53,7 +52,7 @@ class ParkDetailContainer extends React.Component {
 
     console.log(this.state.province)
     return (
-      <Carousel>
+      <div>
         {
           isLoading
             ? <LoadingScreen />
@@ -63,7 +62,7 @@ class ParkDetailContainer extends React.Component {
                 map(this.eventItemCreator, events)
               )
         }
-      </Carousel>
+      </div>
     )
   }
 }
