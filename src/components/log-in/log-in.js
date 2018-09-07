@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import { Helmet } from 'react-helmet'
 import { Redirect, Link } from 'react-router-dom'
-import { Form, Icon, Input, Button } from 'antd';
+import { Form, Icon, Input, Button, message } from 'antd';
 import 'antd/dist/antd.css';
 
 const FormItem = Form.Item;
@@ -43,8 +43,7 @@ class LoginForm extends Component {
               })
             }
           }).catch(error => {
-            console.log('login error: ')
-            console.log(error);
+            message.error("Incorrect username or password");
           })
       }
     });

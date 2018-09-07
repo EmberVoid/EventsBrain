@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Helmet } from 'react-helmet';
-import { Card, Icon, Button } from 'antd'
+import { Card, Icon, Button, message } from 'antd'
 import moment from 'moment'
 import axios from 'axios'
 
@@ -13,40 +13,60 @@ class EventList extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      redirectTo: null
+      refresh: false,
     }
+    this.checkAssist = this.checkAssist.bind(this)
     this.addUserAssist = this.addUserAssist.bind(this)
+    this.RemoveUserAssist = this.RemoveUserAssist.bind(this)
   }
 
-  componentDidMount() {
-    this.checkAssist()
-  }
-
-  checkAssist() {
-
-  }
-
-  addUserAssist(event) {
+  checkAssist(event) {
     event.preventDefault()
 
     let userArray = this.props.event.assists
-    let find = this.props.id
+    let find = this.props.username
     var found = userArray.find(function (element) {
       return element === `${find}`;
     });
 
     if (found) {
       console.log("Found this user already");
+      this.RemoveUserAssist();
     } else {
-      console.log(this.props.id)
-      axios.put(`events/${this.props.event._id}`, {
-        assists: [this.props.id]
-      })
-        .then(response => {
-          console.log('Put Array response: ')
-          console.log(response.data)
-        })
+      console.log("Want to assist?");
+      this.addUserAssist();
     }
+  }
+
+
+  addUserAssist() {
+    console.log(this.props.username)
+    axios.put(`events/assist/${this.props.event._id}`, {
+      assists: [this.props.username]
+    })
+      .then(response => {
+        console.log('Put Array response: ')
+        console.log(response.data)
+        message.success('Added to the assist list!');
+        this.setState(prevState => ({
+          refresh: !prevState.refresh
+        }));
+      })
+  }
+
+  RemoveUserAssist() {
+    console.log(this.props.username)
+    axios.put(`events/assist/del/${this.props.event._id}`, {
+      assists: [this.props.username]
+    })
+      .then(response => {
+        console.log('Delete Array response: ')
+        console.log(response.data)
+        message.error('Deleted from the assist list!');
+        this.setState(prevState => ({
+          refresh: !prevState.refresh
+        }));
+      })
   }
 
 
@@ -62,7 +82,7 @@ class EventList extends Component {
             marginTop: '3em'
           }}
           cover={<img alt={this.props.event.event} src={this.props.event.eventAvatar} />}
-          actions={[<Icon type="setting" />, <Icon type="edit" />, <Button icon="plus" onClick={this.addUserAssist} className={"ant-btn-transparent"}>Assist</Button>]}
+          actions={[<Icon type="setting" />, <Icon type="edit" />, <Button icon="plus" onClickCapture={this.checkAssist} className={"ant-btn-transparent"}>Assist</Button>]}
         >
           <Helmet>
             <style type="text/css">{`

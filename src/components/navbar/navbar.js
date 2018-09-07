@@ -14,8 +14,7 @@ class Navbar extends Component {
     this.logout = this.logout.bind(this)
   }
 
-  logout(event) {
-    event.preventDefault()
+  logout() {
     console.log('logging out')
 
     axios

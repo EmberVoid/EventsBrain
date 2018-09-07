@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Helmet } from 'react-helmet'
 import { Redirect } from 'react-router-dom'
-import { Form, Input, Tooltip, Icon, Button } from "antd";
+import { Form, Input, Tooltip, Icon, Button, message } from "antd";
 import axios from 'axios'
 
 import "antd/dist/antd.css"
@@ -49,8 +49,7 @@ class Signup extends Component {
               console.log('username already taken')
             }
           }).catch(error => {
-            console.log('signup error: ')
-            console.log(error)
+            message.error("Sorry, already a user with the username");
           })
       }
     });

@@ -11,7 +11,8 @@ const eventSchema = new mongoose.Schema({
   eventLocation: String,
   eventPrice: String,
   eventAvatar: String,
-  assists: [mongoose.Schema.Types.ObjectId],
+  assists: [{type: String, unique: true}],
+  comments: [{type: String},{type: String}],
 },{
   timestamps: true
 })

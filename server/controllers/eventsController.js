@@ -28,22 +28,19 @@ async function createEvent(req, res) {
   respond(res, 201, { event })
 }
 
-async function updateEventById(req, res) {
+async function addAssistById(req, res) {
   const event = await Event.findByIdAndUpdate(req.params.id, {
-    new: true,
-    runValidators: true,
     $push: { assists: req.body.assists}
   }).exec()
   respond(res, 200, { event })
 }
 
-/*async function updateEventById(req, res) {
-  const event = await Event.findOneAndUpdate(req.params.id, {
-    new: true,
-    runValidators: true
+async function RemoveAssistById(req, res) {
+  const event = await Event.findByIdAndUpdate(req.params.id, {
+    $pullAll: { assists: [ req.body.assists ] }
   }).exec()
   respond(res, 200, { event })
-}*/
+}
 
 async function deleteEventById(req, res) {
   const event = await Event.findByIdAndDelete(req.params.id)
@@ -54,6 +51,7 @@ module.exports = {
   getEvents,
   getEventById,
   createEvent,
-  updateEventById,
+  addAssistById,
+  RemoveAssistById,
   deleteEventById
 }

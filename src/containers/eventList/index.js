@@ -52,7 +52,7 @@ class EventListContainer extends React.Component {
     }
   }
 
-  eventItemCreator = event => <EventList key={event._id} event={event} id={this.props.id} />
+  eventItemCreator = event => <EventList key={event._id} event={event} id={this.props.id} username={this.props.userName}/>
 
   render() {
     const { isLoading, error, events } = this.state
