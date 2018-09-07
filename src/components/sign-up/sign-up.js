@@ -108,7 +108,7 @@ class Signup extends Component {
     if (this.state.redirectTo) {
       return <Redirect to={{ pathname: this.state.redirectTo }} />
     } return (
-      <div className="flex items-center justify-center vh-100">
+      <div className="flex items-center justify-center vh-100 flexAuto">
         <Helmet>
           <style type="text/css">{`
           body {
@@ -155,7 +155,7 @@ class Signup extends Component {
               ]
             })(<Input type="password" />)}
           </FormItem>
-          <FormItem {...formItemLayout} label="Confirm Password">
+          <FormItem {...formItemLayout} label="Confirm Pass: ">
             {getFieldDecorator("confirm", {
               rules: [
                 {

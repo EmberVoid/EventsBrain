@@ -9,3 +9,7 @@ body {
   text-shadow: 0 0 5px black;
   z-index: 1;
 }
+
+.flexAuto{
+  flex: 1 0 auto;
+}

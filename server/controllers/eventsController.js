@@ -29,12 +29,21 @@ async function createEvent(req, res) {
 }
 
 async function updateEventById(req, res) {
-  const event = await Event.findByIdAndUpdate(req.params.id, req.body, {
+  const event = await Event.findByIdAndUpdate(req.params.id, {
+    new: true,
+    runValidators: true,
+    $push: { assists: req.body.assists}
+  }).exec()
+  respond(res, 200, { event })
+}
+
+/*async function updateEventById(req, res) {
+  const event = await Event.findOneAndUpdate(req.params.id, {
     new: true,
     runValidators: true
   }).exec()
   respond(res, 200, { event })
-}
+}*/
 
 async function deleteEventById(req, res) {
   const event = await Event.findByIdAndDelete(req.params.id)

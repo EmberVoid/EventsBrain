@@ -3,27 +3,12 @@ import { Redirect } from 'react-router-dom'
 import DatePicker from 'react-datetime'
 import moment from 'moment'
 import axios from 'axios'
-import Select from 'react-select'
 import Dropzone from 'react-dropzone'
 import { Helmet } from 'react-helmet'
 import { InputNumber } from 'antd';
 
 import './timepicker.css';
 import 'antd/dist/antd.css';
-
-const space = [
-  { value: '0', label: 'Unlimited' },
-  { value: '1', label: `1` },
-  { value: '2', label: `2` },
-  { value: '3', label: `3` },
-  { value: '4', label: `4` },
-  { value: '5', label: `5` },
-  { value: '6', label: `6` },
-  { value: '7', label: `7` },
-  { value: '8', label: `8` },
-  { value: '9', label: `9` },
-  { value: '10', label: `10` }
-];
 
 class AddEvent extends Component {
   constructor(props) {
@@ -32,10 +17,9 @@ class AddEvent extends Component {
       event: '',
       eventDescription: '',
       eventDate: '',
-      eventLocation: '',
-      eventPrice: null,
-      eventSpace: null,
-      eventAvatar: '',
+      eventLocation: 'San José',
+      eventPrice: '0',
+      eventAvatar: 'http://ptak.felk.cvut.cz/tradr/visuals/bagfiles/unorganized/preview.jpg',
       errors: {},
       redirectTo: null,
       startDate: moment(),
@@ -44,11 +28,6 @@ class AddEvent extends Component {
     this.handleChange = this.handleChange.bind(this)
     this.handleDate = this.handleDate.bind(this)
     this.handlePrice = this.handlePrice.bind(this)
-    this.handleSpace = this.handleSpace.bind(this)
-  }
-
-  handleSpace = (eventSpace) => {
-    this.setState({ eventSpace });
   }
 
   handlePrice = (eventPrice) => {
@@ -104,17 +83,19 @@ class AddEvent extends Component {
     event.preventDefault()
     //request to server to add a new username/password
     axios.post('events/addevent', {
-      event: event.target.value,
+      event: this.state.event,
       eventDescription: this.state.eventDescription,
       eventDate: this.state.startDate,
       eventLocation: this.state.eventLocation,
-      eventPrice: this.state.eventPrice.value,
-      eventSpace: this.state.eventSpace.value,
+      eventPrice: this.state.eventPrice,
       eventAvatar: this.state.eventAvatar,
     })
       .then(response => {
         console.log('Get events response: ')
         console.log(response)
+        this.setState({
+          redirectTo: '/events'
+        })
       })
   }
 
@@ -123,7 +104,7 @@ class AddEvent extends Component {
     if (this.state.redirectTo) {
       return <Redirect to={{ pathname: this.state.redirectTo }} />
     } return (
-      <div className="pa4 black-80">
+      <div className="flex items-center justify-center vh-100">
         <Helmet>
           <style type="text/css">{`
           body {
@@ -135,7 +116,7 @@ class AddEvent extends Component {
           }
           `}</style>
         </Helmet>
-        <form className={"measure center"}>
+        <form className={"measure center flexAuto"}>
           <fieldset id="log_in" className={"ba b--transparent ph0 mh0"}>
             <div className="mt3">
               <label className="db fw6 lh-copy f6" htmlFor="event">Name of the event:</label>
@@ -172,21 +153,9 @@ class AddEvent extends Component {
               </div>
             </div>
             <div className="mt3">
-              <label className="db fw6 lh-copy f6" htmlFor="username">Available Space: </label>
-              <div className="col-3 col-mr-auto">
-                <Select
-                  className="pa2 input-reset ba bg-transparent hover-bg-black w-100"
-                  value={this.state.eventSpace}
-                  onChange={this.handleSpace}
-                  options={space}
-                  size="small"
-                />
-              </div>
-            </div>
-            <div className="mt3">
               <label className="db fw6 lh-copy f6" htmlFor="eventLocation">Location of the event: </label>
               <div className="col-3 col-mr-auto">
-                <input className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
+                <input className="w-100 addEvent-InputName"
                   type="text"
                   id="eventLocation"
                   name="eventLocation"
@@ -199,16 +168,11 @@ class AddEvent extends Component {
             <div className="mt3">
               <label className="db fw6 lh-copy f6" htmlFor="Image of the vent">Image of the vent: </label>
               <div className="col-3 col-mr-auto">
-                <input className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
-                  type="text"
-                  id="eventAvatar"
-                  name="eventAvatar"
-                  placeholder="Image"
-                  value={this.state.eventAvatar}
-                  onChange={this.handleChange}
-                />
+                <div className={"flex items-center justify-center"}>
+                  <img src={this.state.eventAvatar} alt="Preview" className={"imgThumbnail pa2 mt3 mb4 bg-near-white measure center flexAuto"} />
+                </div>
                 <Dropzone
-                  className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
+                  className="w-100 addEvent-InputName"
                   onDrop={this.handleDrop}
                   multiple
                   accept="image/*"
@@ -220,11 +184,12 @@ class AddEvent extends Component {
             <div className="mt3">
               <label className="db fw6 lh-copy f6" htmlFor="eventDescription">Description of the event:</label>
               <div className="col-3 col-mr-auto">
-                <input className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
+                <textarea className="w-100 addEvent-InputDescription"
                   type="text"
                   id="eventDescription"
                   name="eventDescription"
                   placeholder="Event Description"
+                  maxLength={"500"}
                   value={this.state.eventDescription}
                   onChange={this.handleChange}
                 />
@@ -233,8 +198,8 @@ class AddEvent extends Component {
             <div className="mt3 ">
               <button
                 className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
-                onClick={this.handleAddEvent}
                 type="submit"
+                onClick={this.handleAddEvent}
               >Submit event</button>
             </div>
           </fieldset>

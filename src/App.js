@@ -19,7 +19,8 @@ class App extends Component {
     super()
     this.state = {
       loggedIn: false,
-      username: null
+      username: null,
+      id: null,
     }
 
     this.getUser = this.getUser.bind(this)
@@ -44,13 +45,15 @@ class App extends Component {
 
         this.setState({
           loggedIn: true,
-          username: response.data.user.username
+          username: response.data.user.username,
+          id: response.data.user._id,
         })
       } else {
         console.log('Get user: no user');
         this.setState({
           loggedIn: false,
-          username: null
+          username: null,
+          id: null
         })
       }
     })
@@ -66,7 +69,7 @@ class App extends Component {
             <Route
               path="/events"
               render={() =>
-                <GetEvent />}
+                <GetEvent id={this.state.id} userName={this.state.username}/>}
             />}
           <main>
             <Switch>

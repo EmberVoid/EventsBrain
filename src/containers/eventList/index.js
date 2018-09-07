@@ -4,11 +4,15 @@ import EventList from '../../components/getevent/'
 import LoadingScreen from '../../components/loadingscreen/'
 import axios from 'axios'
 
-class ParkDetailContainer extends React.Component {
-  state = {
-    events: [],
-    isLoading: false,
-    error: null,
+
+class EventListContainer extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      events: [],
+      isLoading: false,
+      error: null
+    }
   }
 
   handleGet(event) {
@@ -22,7 +26,10 @@ class ParkDetailContainer extends React.Component {
   }
 
   async componentWillMount() {
-    this.setState({ isLoading: true })
+    this.setState({ isLoading: true})
+    console.log(`ID from eventList: ObjectId("${this.props.id}")
+      Name ${this.props.userName}`)
+
 
     try {
       axios.get('events')
@@ -45,12 +52,11 @@ class ParkDetailContainer extends React.Component {
     }
   }
 
-  eventItemCreator = event => <EventList key={event._id} event={event} />
+  eventItemCreator = event => <EventList key={event._id} event={event} id={this.props.id} />
 
   render() {
     const { isLoading, error, events } = this.state
 
-    console.log(this.state.province)
     return (
       <div>
         {
@@ -67,4 +73,4 @@ class ParkDetailContainer extends React.Component {
   }
 }
 
-export default ParkDetailContainer
+export default EventListContainer

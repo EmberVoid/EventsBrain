@@ -262,3 +262,21 @@ td.rdtYear:hover {
   cursor: default;
   text-align: center;
 }
+
+.addEvent-InputDescription{
+  width: 100%;
+  border-color: hsl(0,0%,80%);
+  border-radius: 4px;
+  border-style: solid;
+  border-width: 1px;
+  cursor: default;
+}
+
+.imgThumbnail{
+  max-width: 170px;
+  max-height: 170px;
+  border-color: hsl(0,0%,80%);
+  border-radius: 4px;
+  border-style: solid;
+  border-width: 1px;
+}
