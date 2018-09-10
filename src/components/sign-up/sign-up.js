@@ -50,7 +50,7 @@ class Signup extends Component {
               console.log('username already taken')
             }
           }).catch(error => {
-            message.error("Sorry, already a user with the username");
+            message.error("Sorry, username already taken, please pick a new one");
           })
       }
     });
@@ -64,7 +64,7 @@ class Signup extends Component {
   compareToFirstPassword = (rule, value, callback) => {
     const form = this.props.form;
     if (value && value !== form.getFieldValue("password")) {
-      callback("Two passwords that you enter is inconsistent!");
+      callback("The passwords that you enter are inconsistent!");
     } else {
       callback();
     }
@@ -155,7 +155,7 @@ class Signup extends Component {
               ]
             })(<Input type="password" />)}
           </FormItem>
-          <FormItem {...formItemLayout} label="Confirm Pass: ">
+          <FormItem {...formItemLayout} label="Confirm pass: ">
             {getFieldDecorator("confirm", {
               rules: [
                 {
