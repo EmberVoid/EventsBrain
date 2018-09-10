@@ -44,7 +44,7 @@ class Navbar extends Component {
       <nav className="flex justify-between bb b--white-10 fixed zIndex1" id="nav-container">
         {loggedIn ? (
           <section className="flex-grow pa3 flex items-center">
-          <Link to="/addevent" >
+            <Link to="/addevent" >
               <span className="f6 dib white bg-animate hover-bg-white hover-black no-underline pv2 ph4 br-pill ba b--white-20">Add Event</span>
             </Link>
             <Link to="/events" >
@@ -53,6 +53,7 @@ class Navbar extends Component {
             <Link to="/" >
               <span className="f6 link dib white dim mr3 mr4-ns" onClick={this.logout}>logout</span>
             </Link>
+            <div className="f6 link dib white dim mr3 mr4-ns"> Hello {this.props.userName}</div>
           </section>
         ) : (
             <section className="flex-grow pa3 flex items-center">

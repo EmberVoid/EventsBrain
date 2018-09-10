@@ -13,7 +13,8 @@ class EventList extends Component {
     super(props);
     this.state = {
       event: [],
-      isdisable: false
+      isdisable: false,
+      delete: "primary"
     }
     this.handleLangChange = this.handleLangChange.bind(this)
   }
@@ -23,7 +24,7 @@ class EventList extends Component {
     let createdBy = this.props.event.eventCreatedBy
     let actualUser = this.props.userName
 
-    if(actualUser === createdBy){
+    if (actualUser === createdBy) {
       this.setState({
         isdisable: false
       });
@@ -32,6 +33,23 @@ class EventList extends Component {
         isdisable: true
       });
     }
+
+    var array1 = this.props.event.assists;
+
+    var found = array1.find(function (element) {
+      return element === actualUser;
+    });
+
+    if (found) {
+      this.setState({
+        delete: "danger"
+      });
+    } else {
+      this.setState({
+        delete: "primary"
+      });
+    }
+
 
     var event = this.props.event
     this.setState({
@@ -55,7 +73,7 @@ class EventList extends Component {
           actions={[
             <Button icon="delete" onClick={this.props.DeleteEvent} onMouseEnter={this.handleLangChange} className={"ant-btn-transparent"} disabled={this.state.isdisable}>Delete</Button>,
             <Button icon="edit" onClick={this.props.showModal} onMouseEnter={this.handleLangChange} className={"ant-btn-transparent"} disabled={this.state.isdisable}>Edit</Button>,
-            <Badge count={this.props.event.assists.length}><Button icon="plus" onClick={this.props.checkAssist} onMouseEnter={this.handleLangChange} className={"ant-btn-transparent"}>Assist</Button></Badge>]}
+            <Badge count={this.props.event.assists.length}><Button icon="plus" onClick={this.props.checkAssist} onMouseEnter={this.handleLangChange} type={this.state.delete} >Assist</Button></Badge>]}
         >
           <Helmet>
             <style type="text/css">{`
