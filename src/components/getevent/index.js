@@ -13,12 +13,26 @@ class EventList extends Component {
     super(props);
     this.state = {
       event: [],
+      isdisable: false
     }
     this.handleLangChange = this.handleLangChange.bind(this)
   }
 
   handleLangChange = (evt) => {
     evt.preventDefault();
+    let createdBy = this.props.event.eventCreatedBy
+    let actualUser = this.props.userName
+
+    if(actualUser === createdBy){
+      this.setState({
+        isdisable: false
+      });
+    } else {
+      this.setState({
+        isdisable: true
+      });
+    }
+
     var event = this.props.event
     this.setState({
       event: event
@@ -39,7 +53,8 @@ class EventList extends Component {
           }}
           cover={<img alt={this.props.event.event} src={this.props.event.eventAvatar} />}
           actions={[
-            <Button icon="edit" onClick={this.props.showModal} onMouseEnter={this.handleLangChange} className={"ant-btn-transparent"}>Edit</Button>,
+            <Button icon="delete" onClick={this.props.DeleteEvent} onMouseEnter={this.handleLangChange} className={"ant-btn-transparent"} disabled={this.state.isdisable}>Delete</Button>,
+            <Button icon="edit" onClick={this.props.showModal} onMouseEnter={this.handleLangChange} className={"ant-btn-transparent"} disabled={this.state.isdisable}>Edit</Button>,
             <Badge count={this.props.event.assists.length}><Button icon="plus" onClick={this.props.checkAssist} onMouseEnter={this.handleLangChange} className={"ant-btn-transparent"}>Assist</Button></Badge>]}
         >
           <Helmet>
@@ -60,7 +75,7 @@ class EventList extends Component {
           <div><p className={"dib pt3"}><strong>Time and date: </strong></p> <span className={"tr dib"}>{local_date}</span></div>
           <div><p className={"dib"}><strong>Location: </strong></p> <span className={"tr dib"}>{this.props.event.eventLocation}</span></div>
           <div><p className={"dib"}><strong>Price: </strong></p> <span className={"tr dib"}>${this.props.event.eventPrice}</span></div>
-          <div><p className={"dib light-silver"}>Created by:</p> <span className={"tr dib light-silver"}>{this.props.userName}</span></div>
+          <div><p className={"dib light-silver"}>Created by:</p> <span className={"tr dib light-silver"}>{this.props.event.eventCreatedBy}</span></div>
         </Card>
       </article>
     )

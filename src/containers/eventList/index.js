@@ -22,6 +22,7 @@ class EventListContainer extends React.Component {
     this.addUserAssist = this.addUserAssist.bind(this)
     this.RemoveUserAssist = this.RemoveUserAssist.bind(this)
     this.refreshevents = this.refreshevents.bind(this)
+    this.DeleteEvent = this.DeleteEvent.bind(this)
     this.getEvent = this.getEvent.bind(this)
     this.handleGet = this.handleGet.bind(this)
     /**Modal */
@@ -109,6 +110,16 @@ class EventListContainer extends React.Component {
       })
   }
 
+  DeleteEvent() {
+    axios.delete(`events/${this.state.event._id}`)
+      .then(response => {
+        console.log('Delete response: ')
+        console.log(response.data)
+        message.success(`Event ${this.state.event.event} deleted!`);
+        this.refreshevents();
+      })
+  }
+
   refreshevents() {
     this.setState({ isLoading: true })
     console.log(`ID from eventList: ObjectId("${this.props.userName}")
@@ -150,6 +161,7 @@ class EventListContainer extends React.Component {
     <EventList
       key={event._id}
       event={event}
+      DeleteEvent={this.DeleteEvent}
       checkAssist={this.checkAssist}
       handlerFromParant={this.getEvent}
       userName={this.props.userName}
