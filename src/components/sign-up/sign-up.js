@@ -40,6 +40,7 @@ class Signup extends Component {
             console.log('Sign up response: ')
             console.log(response)
             if (!response.data.errmsg) {
+              message.success(`User ${values.nickname} was created successfully`);
               console.log('successful signup')
               console.log('Redirecting to login')
               this.setState({

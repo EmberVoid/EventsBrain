@@ -7,19 +7,19 @@ import Dropzone from 'react-dropzone'
 import { Helmet } from 'react-helmet'
 import { InputNumber } from 'antd';
 
-import './timepicker.css';
+import './editevent.css';
 import 'antd/dist/antd.css';
 
 class AddEvent extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      event: '',
-      eventDescription: '',
-      eventDate: '',
-      eventLocation: 'San José',
-      eventPrice: '0',
-      eventAvatar: 'http://ptak.felk.cvut.cz/tradr/visuals/bagfiles/unorganized/preview.jpg',
+      event: this.props.event.event,
+      eventDescription: this.props.event.eventDescription,
+      eventDate: this.props.event.eventDate,
+      eventLocation: this.props.event.eventLocation,
+      eventPrice: this.props.event.eventPrice,
+      eventAvatar: this.props.event.eventAvatar,
       errors: {},
       redirectTo: null,
       startDate: moment(),
@@ -84,8 +84,9 @@ class AddEvent extends Component {
 
   handleAddEvent(event) {
     event.preventDefault()
+
     //request to server to add a new username/password
-    axios.post('events/addevent', {
+    axios.put(`events/assist/update/${this.props.event._id}`, {
       event: this.state.event,
       eventDescription: this.state.eventDescription,
       eventDate: this.state.startDate,
@@ -96,9 +97,6 @@ class AddEvent extends Component {
       .then(response => {
         console.log('Get events response: ')
         console.log(response)
-        this.setState({
-          redirectTo: '/events'
-        })
       })
   }
 
@@ -107,7 +105,7 @@ class AddEvent extends Component {
     if (this.state.redirectTo) {
       return <Redirect to={{ pathname: this.state.redirectTo }} />
     } return (
-      <div className="flex items-center justify-center vh-100">
+      <div className="flex items-center justify-center">
         <Helmet>
           <style type="text/css">{`
           body {
@@ -146,7 +144,7 @@ class AddEvent extends Component {
               <label className="db fw6 lh-copy f6" htmlFor="eventPrice">Price of the event: </label>
               <div className="col-3 col-mr-auto">
                 <InputNumber
-                  defaultValue={0}
+                  defaultValue={this.props.event.eventPrice}
                   formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                   parser={value => value.replace(/\$\s?|(,*)/g, '')}
                   onChange={this.handlePrice}
@@ -177,6 +175,7 @@ class AddEvent extends Component {
                 <Dropzone
                   className="w-100 addEvent-InputName"
                   onDrop={this.handleDrop}
+                  multiple
                   accept="image/*"
                 >
                   <p>Drop your files or click here to upload</p>
@@ -201,7 +200,8 @@ class AddEvent extends Component {
               <button
                 className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
                 type="submit"
-                onClick={this.handleAddEvent}
+                onClick={this.props.refreshevents}
+                onMouseEnter={this.handleAddEvent}
               >Submit event</button>
             </div>
           </fieldset>
