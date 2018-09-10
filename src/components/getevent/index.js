@@ -60,6 +60,7 @@ class EventList extends Component {
           <div><p className={"dib pt3"}><strong>Time and date: </strong></p> <span className={"tr dib"}>{local_date}</span></div>
           <div><p className={"dib"}><strong>Location: </strong></p> <span className={"tr dib"}>{this.props.event.eventLocation}</span></div>
           <div><p className={"dib"}><strong>Price: </strong></p> <span className={"tr dib"}>${this.props.event.eventPrice}</span></div>
+          <div><p className={"dib light-silver"}>Created by:</p> <span className={"tr dib light-silver"}>{this.props.userName}</span></div>
         </Card>
       </article>
     )

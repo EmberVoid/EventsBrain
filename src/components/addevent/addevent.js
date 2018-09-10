@@ -15,6 +15,7 @@ class AddEvent extends Component {
     super(props)
     this.state = {
       event: '',
+      eventCreatedBy: '',
       eventDescription: '',
       eventDate: '',
       eventLocation: 'San José',
@@ -87,6 +88,7 @@ class AddEvent extends Component {
     //request to server to add a new username/password
     axios.post('events/addevent', {
       event: this.state.event,
+      eventCreatedBy: this.props.userName,
       eventDescription: this.state.eventDescription,
       eventDate: this.state.startDate,
       eventLocation: this.state.eventLocation,

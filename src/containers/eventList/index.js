@@ -152,6 +152,7 @@ class EventListContainer extends React.Component {
       event={event}
       checkAssist={this.checkAssist}
       handlerFromParant={this.getEvent}
+      userName={this.props.userName}
       showModal={this.showModal}
     />
 
